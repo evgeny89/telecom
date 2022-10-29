@@ -17,7 +17,7 @@ class EquipmentTypeController extends Controller
      */
     public function index(): Response
     {
-         return response(new \App\Http\Resources\EquipmentType(EquipmentType::all()));
+         return response(EquipmentTypeResource::collection(EquipmentType::all()));
     }
 
     /**
