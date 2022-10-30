@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\AppHelper;
-use App\Models\EquipmentType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class StoreEquipmentRequest extends FormRequest
 {
@@ -26,21 +25,16 @@ class StoreEquipmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "equipment_type_id" => "required|exists:equipment_types,id",
-            "description" => "string",
-            "serial_number" => [
+            "equipments" => [
                 "required",
-                "unique:equipment,serial_number",
+                "array",
                 function ($attribute, $value, $fail) {
-                    $type = EquipmentType::find($this->equipment_type_id);
-                    if ($type) {
-                        $result = AppHelper::testString($value, $type->pattern);
-                        if (!$result) {
-                            $fail("{$attribute} не соответствует выбранному типу оборудования");
-                        }
+                    if (Arr::isAssoc($value)) {
+                        $fail("{$attribute} не может быть объектом");
                     }
                 }
             ],
+            "equipments.*" => "required|array",
         ];
     }
 }

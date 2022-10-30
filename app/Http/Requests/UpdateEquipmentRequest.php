@@ -28,15 +28,19 @@ class UpdateEquipmentRequest extends FormRequest
         return [
             "equipment_type_id" => "required|exists:equipment_types,id",
             "description" => "string",
-            "serial_number" => ["required", function($attribute, $value, $fail) {
-                $type = EquipmentType::find($this->equipment_type_id);
-                if($type) {
-                    $result = AppHelper::testString($value, $type->pattern);
-                    if (!$result) {
-                        $fail("{$attribute} не соответствует выбранному типу оборудования");
+            "serial_number" => [
+                "required",
+                "unique:equipment,serial_number",
+                function ($attribute, $value, $fail) {
+                    $type = EquipmentType::find($this->equipment_type_id);
+                    if ($type) {
+                        $result = AppHelper::testString($value, $type->pattern);
+                        if (!$result) {
+                            $fail("{$attribute} не соответствует выбранному типу оборудования");
+                        }
                     }
                 }
-            }],
+            ],
         ];
     }
 }
