@@ -7,18 +7,22 @@ use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class EquipmentController extends Controller
 {
+    protected int $perPage = 5;
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return response(EquipmentResource::collection(Equipment::all()));
+        return response(EquipmentResource::collection(Equipment::search($request)->paginate($this->perPage)));
     }
 
     /**

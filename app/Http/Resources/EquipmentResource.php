@@ -18,7 +18,7 @@ class EquipmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'equipment_type' => new EquipmentTypeResource(EquipmentType::find($this->equipment_type_id)),
+            'equipment_type' => $this->type,
             'serial_number' => $this->serial_number,
             'description' => $this->description,
             'created_at' => $this->created_at,
