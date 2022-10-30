@@ -36,6 +36,53 @@ class Equipment extends Model
         "description",
     ];
 
+    protected array $searchFields = [
+        "type",
+        "sn",
+        "desc",
+    ];
+
+    /*
+    * =============================================
+    * SCOPE
+    * =============================================
+    */
+
+    public function scopeSearch($query, $request)
+    {
+        if ($request->has("q")) {
+            $query->desc($request->get('q'));
+            $query->sn($request->get('q'));
+            $query->type($request->get('q'));
+        } else {
+            foreach ($this->searchFields as $field) {
+                if ($request->has($field)) {
+                    $query->{$field}($request->get($field));
+                }
+            }
+        }
+
+        return $query;
+    }
+
+    public function scopeDesc($query, $search)
+    {
+        return $query->orWhere('description', 'LIKE', "%{$search}%");
+    }
+
+    public function scopeSN($query, $search)
+    {
+        return $query->orWhere('serial_number', 'LIKE', "%{$search}%");
+    }
+
+    public function scopeType($query, $search)
+    {
+        return $query->orWhereHas('type', function($q) use ($search) {
+            $q->where('name', 'LIKE', '%'.$search.'%');
+        });
+    }
+
+
     /*
     * =============================================
     * RELATIONSHIP
@@ -48,7 +95,7 @@ class Equipment extends Model
      */
     public function type(): BelongsTo
     {
-        return $this->belongsTo(EquipmentType::class);
+        return $this->belongsTo(EquipmentType::class, "equipment_type_id");
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\EquipmentStoreAction;
 use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
@@ -38,10 +39,8 @@ class EquipmentController extends Controller
      */
     public function store(StoreEquipmentRequest $request): Response
     {
-        $type = new Equipment($request->validated());
-        $type->save();
-
-        return response(new EquipmentResource($type));
+        $action = new EquipmentStoreAction($request);
+        return response($action->handler());
     }
 
     /**
