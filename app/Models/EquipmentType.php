@@ -37,6 +37,43 @@ class EquipmentType extends Model
         "mask",
     ];
 
+    protected array $searchFields = [
+        "name",
+        "mask",
+    ];
+
+    /*
+    * =============================================
+    * SCOPE
+    * =============================================
+    */
+
+    public function scopeSearch($query, $request)
+    {
+        if ($request->has("q")) {
+            $query->name($request->get('q'));
+            $query->mask($request->get('q'));
+        } else {
+            foreach ($this->searchFields as $field) {
+                if ($request->has($field)) {
+                    $query->{$field}($request->get($field));
+                }
+            }
+        }
+
+        return $query;
+    }
+
+    public function scopeName($query, $search)
+    {
+        return $query->orWhere('name', 'LIKE', "%{$search}%");
+    }
+
+    public function scopeMask($query, $search)
+    {
+        return $query->orWhere('mask', 'LIKE', "%{$search}%");
+    }
+
     /*
     * =============================================
     * RELATIONSHIP

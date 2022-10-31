@@ -6,18 +6,28 @@ use App\Http\Requests\StoreEquipmentTypeRequest;
 use App\Http\Requests\UpdateEquipmentTypeRequest;
 use App\Http\Resources\EquipmentTypeResource;
 use App\Models\EquipmentType;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class EquipmentTypeController extends Controller
 {
     /**
+     * pagination value
+     *
+     * @var int
+     */
+    protected int $perPage = 5;
+
+    /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): Response
+    public function index(Request $request): JsonResponse
     {
-         return response(EquipmentTypeResource::collection(EquipmentType::all()));
+         return EquipmentTypeResource::collection(EquipmentType::search($request)->paginate($this->perPage))->response();
     }
 
     /**

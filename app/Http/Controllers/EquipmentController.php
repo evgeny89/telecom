@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
 use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,11 +24,11 @@ class EquipmentController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function index(Request $request): Response
+    public function index(Request $request): JsonResponse
     {
-        return response(EquipmentResource::collection(Equipment::search($request)->paginate($this->perPage)));
+        return EquipmentResource::collection(Equipment::search($request)->paginate($this->perPage))->response();
     }
 
     /**
