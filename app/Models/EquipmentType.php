@@ -43,10 +43,6 @@ class EquipmentType extends Model
     * =============================================
     */
 
-    /**
-     * Get the equipments for the type.
-     * @return HasMany
-     */
     public function equipments(): HasMany
     {
         return $this->hasMany(Equipment::class);

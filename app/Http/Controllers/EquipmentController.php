@@ -12,6 +12,11 @@ use Illuminate\Http\Response;
 
 class EquipmentController extends Controller
 {
+    /**
+     * pagination value
+     *
+     * @var int
+     */
     protected int $perPage = 5;
 
     /**

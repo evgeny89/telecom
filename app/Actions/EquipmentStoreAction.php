@@ -31,6 +31,11 @@ class EquipmentStoreAction implements ActionContract
         ];
     }
 
+    /**
+     * Handler for store equipments array
+     *
+     * @return array
+     */
     public function handler(): array
     {
         foreach ($this->data as $key => $equipment) {
@@ -50,6 +55,8 @@ class EquipmentStoreAction implements ActionContract
     }
 
     /**
+     * Validate equipment
+     *
      * @param array $equipment
      * @return array
      */

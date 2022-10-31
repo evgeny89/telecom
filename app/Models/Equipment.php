@@ -89,10 +89,6 @@ class Equipment extends Model
     * =============================================
     */
 
-    /**
-     * Get the type that owns the equipment.
-     * @return BelongsTo
-     */
     public function type(): BelongsTo
     {
         return $this->belongsTo(EquipmentType::class, "equipment_type_id");
