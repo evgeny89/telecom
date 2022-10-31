@@ -3,7 +3,7 @@
 ```shell
 git clone git@github.com:evgeny89/telecom.git
 
-cd telecome
+cd telecom
 
 composer install
 
