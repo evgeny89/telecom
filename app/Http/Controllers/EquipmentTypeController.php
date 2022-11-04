@@ -31,16 +31,6 @@ class EquipmentTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create(): Response
-    {
-        return response("", 404);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param StoreEquipmentTypeRequest $request
@@ -63,17 +53,6 @@ class EquipmentTypeController extends Controller
     public function show(EquipmentType $equipmentType): Response
     {
         return response(new EquipmentTypeResource($equipmentType));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param EquipmentType $equipmentType
-     * @return Response
-     */
-    public function edit(EquipmentType $equipmentType): Response
-    {
-        return response("", 404);
     }
 
     /**

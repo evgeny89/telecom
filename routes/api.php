@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resources([
+Route::apiResources([
     "equipment" => EquipmentController::class,
     "equipment_type" => EquipmentTypeController::class,
 ]);
