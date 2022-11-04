@@ -18,13 +18,6 @@ class AppHelper
     ];
 
     /**
-     * RegEx for split mask to same chars together
-     *
-     * @var string
-     */
-    protected static string $splitPattern = '/(.)\1*/';
-
-    /**
      * build regex patter from mask
      *
      * @param string $mask
@@ -32,13 +25,8 @@ class AppHelper
      */
     public static function makePattern(string $mask): string
     {
-        preg_match_all(self::$splitPattern, $mask, $matches);
-        $patternsArray = array_map(function ($match) {
-            $count = strlen($match);
-            return self::$chars[substr($match, 0 , 1)]. "{{$count}}";
-        }, $matches[0]);
-        $pattern = implode("", $patternsArray);
-        return "/^{$pattern}$/";
+        $compressArray = self::compressMask($mask);
+        return self::createPattern($compressArray);
     }
 
     /**
@@ -51,5 +39,49 @@ class AppHelper
     public static function testString(string $string, string $pattern): bool
     {
         return (bool) preg_match($pattern, $string);
+    }
+
+    /**
+     * compress string
+     *
+     * @param $mask
+     * @return array
+     */
+    protected static function compressMask($mask): array
+    {
+        $compressArray = [];
+        $char = $mask[0];
+        $count = 0;
+        foreach (str_split($mask) as $ch) {
+            if ($char === $ch) {
+                ++$count;
+            } else {
+                $compressArray[] = "{$char}:{$count}";
+                $char = $ch;
+                $count = 1;
+            }
+        }
+
+        $compressArray[] = "{$char}:{$count}";
+
+        return $compressArray;
+    }
+
+    /**
+     * create type pattern
+     *
+     * @param $arr
+     * @return string
+     */
+    protected static function createPattern($arr): string
+    {
+        $pattern = "/^";
+        foreach ($arr as $compressString) {
+            [$char, $count] = explode(":", $compressString);
+            $pattern .= self::$chars[$char] . "{{$count}}";
+        }
+        $pattern .= "$/";
+
+        return $pattern;
     }
 }
