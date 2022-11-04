@@ -42,6 +42,8 @@ class EquipmentType extends Model
         "mask",
     ];
 
+    protected $perPage = 5;
+
     /*
     * =============================================
     * SCOPE

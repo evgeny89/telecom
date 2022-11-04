@@ -42,6 +42,8 @@ class Equipment extends Model
         "desc",
     ];
 
+    protected $perPage = 10;
+
     /*
     * =============================================
     * SCOPE

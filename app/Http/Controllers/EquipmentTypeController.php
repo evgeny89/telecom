@@ -13,13 +13,6 @@ use Illuminate\Http\Response;
 class EquipmentTypeController extends Controller
 {
     /**
-     * pagination value
-     *
-     * @var int
-     */
-    protected int $perPage = 5;
-
-    /**
      * Display a listing of the resource.
      *
      * @param Request $request
@@ -27,7 +20,7 @@ class EquipmentTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-         return EquipmentTypeResource::collection(EquipmentType::search($request)->paginate($this->perPage))->response();
+         return EquipmentTypeResource::collection(EquipmentType::search($request)->paginate())->response();
     }
 
     /**
