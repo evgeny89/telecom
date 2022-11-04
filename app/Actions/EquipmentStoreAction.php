@@ -2,13 +2,12 @@
 
 namespace App\Actions;
 
-use App\Contracts\ActionContract;
 use App\Helpers\AppHelper;
 use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
 use App\Models\EquipmentType;
 
-class EquipmentStoreAction implements ActionContract
+class EquipmentStoreAction
 {
     protected array $data;
     protected array $result;
@@ -16,10 +15,7 @@ class EquipmentStoreAction implements ActionContract
     const RULES = [
         "equipment_type_id" => "required|exists:equipment_types,id",
         "description" => "string",
-        "serial_number" => [
-            "required",
-            "unique:equipment,serial_number",
-        ],
+        "serial_number" => "required|unique:equipment,serial_number",
     ];
 
     public function __construct($request)
